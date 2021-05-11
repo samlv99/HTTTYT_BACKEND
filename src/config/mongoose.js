@@ -25,7 +25,7 @@ if (env === 'development') {
  * @public
  */
 
-export.connect = () => {
+exports.connect = () => {
     mongoose.connect(mongo.uri, {
         keepAlive: 1,
         useNewUrlParser: true,

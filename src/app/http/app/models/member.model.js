@@ -1,0 +1,63 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const bcrypt = require('bcryptjs');
+
+const { CommonStatus_Active } = require('../../../helpers/const');
+
+/**
+ * Member Schema
+ * @private
+ */
+
+const memberSchema = new mongoose.Schema(
+    {
+        email: {
+            type: String,
+            match: /^\S+@\S+\.\S+$/,
+            required: true,
+            unique: true,
+            trim: true,
+            lowercase: true,
+            index: { unique: true },
+        },
+        password: {
+            type: String,
+            required: true,
+            minlength: 6,
+            maxlength: 128,
+        },
+        fullName: {
+            type: String,
+            maxlength: 128,
+            index: true,
+            trim: true,
+        },
+        services: {
+            facebook: String,
+            google: String,
+        },
+        avatar: {
+            type: String,
+            trim: true,
+            // default: '',
+        },
+        refreshToken: {
+            type: String,
+        },
+        status: {
+            type: Number,
+            default: CommonStatus_Active,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+/**
+ * @typedef Member
+ */
+
+const Member = mongoose.model('Member', memberSchema);
+module.exports = Member;

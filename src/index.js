@@ -7,10 +7,10 @@ const Promise = require('bluebird');
 require('dotenv').config()
 
 const { logs, UPLOAD_LIMIT } = require('./config/vars');
-
+const mongoose = require('./config/mongoose');
 const log = require('./app/helpers/log');
 
-
+mongoose.connect(); // open mongoose connection
 
 const app = express();
 const port = process.env.PORT || 8080;
