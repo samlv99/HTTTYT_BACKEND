@@ -7,6 +7,7 @@ const Promise = require('bluebird');
 require('dotenv').config()
 
 const { logs, UPLOAD_LIMIT } = require('./config/vars');
+const appRoutes = require('./app/http/app/routes');
 const mongoose = require('./config/mongoose');
 const log = require('./app/helpers/log');
 
@@ -32,7 +33,8 @@ app.use(cors());
 // secure apps by setting various HTTP headers
 app.use(helmet());
 
-
+// mount api v1 routes
+app.use('/api/v1', appRoutes);
 
 
 app.listen(port, () => {
