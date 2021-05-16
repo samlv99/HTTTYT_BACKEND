@@ -100,7 +100,46 @@ const login = async (req, res, next) => {
     }
 };
 
+const changePassword = async (req, res, next) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const member = await Member.findById(req.memberId);
+        if (!member) return res.status(httpStatus.BAD_REQUEST).json({ message: 'Member does not exist.' });
+
+        const isTruePassword = compareSync(oldPassword, member.password);
+        if (!isTruePassword) return res.status(httpStatus.BAD_REQUEST).json({ message: 'Email or password is invalid.' });
+
+        if (oldPassword === newPassword)
+            return res
+                .status(httpStatus.UNPROCESSABLE_ENTITY)
+                .json({ message: 'The new password cannot be same old password' });
+        const passwordHash = hashSync(newPassword, auth.SaltRounds);
+        await Member.updateOne({ _id: req.memberId }, { password: passwordHash});
+
+        res.status(httpStatus.OK).json({ success: true });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const requestAccessToken = async (req, res, next) => {
+    try {
+        const member = await Member.findById(req.memberId);
+        const dataEncode = pick(member, ['_id', 'status']);
+        const token = generateAccessToken(dataEncode);
+        const data = { _id: member.id, token };
+
+        res.status(httpStatus.OK);
+        return res.json({ data });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+
 module.exports = {
     register,
     login,
+    changePassword,
+    requestAccessToken,
 };
