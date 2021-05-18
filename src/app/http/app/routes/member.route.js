@@ -7,3 +7,5 @@ const { checkTokenApp } = require('../../../middlewares/app');
 const router = express.Router();
 
 router.route('/').get(checkTokenApp, memberController.getProfile);
+
+module.exports = router;
