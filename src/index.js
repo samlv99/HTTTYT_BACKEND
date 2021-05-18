@@ -4,7 +4,7 @@ const compression = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const Promise = require('bluebird');
-require('dotenv').config()
+require('dotenv').config();
 
 const { logs, UPLOAD_LIMIT } = require('./config/vars');
 const appRoutes = require('./app/http/app/routes');
