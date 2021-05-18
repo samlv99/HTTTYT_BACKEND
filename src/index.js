@@ -37,6 +37,11 @@ app.use(helmet());
 app.use('/api/v1', appRoutes);
 
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+
+
 app.listen(port, () => {
     logger.info(`App is running on ${port}`);
 });
