@@ -19,9 +19,9 @@ function checkTokenApp(req, res, next) {
                 const member = await Member.findById(decoded._id);
                 if (member.status === CommonStatus_INACTIVE || !member.status) {
                     return res.status(httpStatus.FORBIDDEN).json({ message: 'Member blocked.' });
-                    req.memberId = decoded._id;
-                    next();
                 }
+                req.memberId = decoded._id;
+                next();
             } catch (error) {
                 next(error);
             }

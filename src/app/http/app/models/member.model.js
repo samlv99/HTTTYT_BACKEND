@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const bcrypt = require('bcryptjs');
 
-const { CommonStatus_Active } = require('../../../helpers/const');
+const { CommonStatus_ACTIVE } = require('../../../helpers/const');
 
 /**
  * Member Schema
@@ -33,21 +33,21 @@ const memberSchema = new mongoose.Schema(
             index: true,
             trim: true,
         },
-        services: {
+        service: {
             facebook: String,
             google: String,
         },
         avatar: {
             type: String,
             trim: true,
-            // default: '',
+            // default: 'https://res.cloudinary.com/phamtienduc/image/upload/v1619884133/uploads/default-avatar_iliixs.png',
         },
         refreshToken: {
             type: String,
         },
         status: {
             type: Number,
-            default: CommonStatus_Active,
+            default: CommonStatus_ACTIVE,
         },
     },
     {
@@ -58,6 +58,5 @@ const memberSchema = new mongoose.Schema(
 /**
  * @typedef Member
  */
-
 const Member = mongoose.model('Member', memberSchema);
 module.exports = Member;
